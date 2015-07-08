@@ -6,6 +6,16 @@ TextLayer *label_stan;
 TextLayer *time_cann;
 TextLayer *time_stan;
 
+TextLayer *label_cann_shadow;
+TextLayer *label_stan_shadow;
+TextLayer *time_cann_shadow;
+TextLayer *time_stan_shadow;
+
+int label_shadow_h = 2;
+int label_shadow_v = 2;
+int time_shadow_h = 3;
+int time_shadow_v = 3;
+
 unsigned long get_total_seconds(struct tm *tick_time) {
   return (tick_time->tm_hour * 60 * 60) + (tick_time->tm_min * 60) + (tick_time->tm_sec);
 }
@@ -46,11 +56,13 @@ static void display_time(struct tm *tick_time) {
   static char display[] = "00.00";
   itoa2(cann_hour, &display[0]);
   itoa2(cann_min, &display[3]);
+  text_layer_set_text(time_cann_shadow, display);
   text_layer_set_text(time_cann, display);
 
   static char time_text[] = "00:00";
   itoa2(get_display_hour(tick_time->tm_hour), &time_text[0]);
   itoa2(tick_time->tm_min, &time_text[3]);
+  text_layer_set_text(time_stan_shadow, time_text);
   text_layer_set_text(time_stan, time_text);
 }
 
@@ -61,8 +73,44 @@ static void handle_second_tick(struct tm *tick_time, TimeUnits units_changed) {
 void handle_init(void) {
   window = window_create();
 
+  #ifdef PBL_COLOR
+  #else
+    window_set_fullscreen(window, true);
+  #endif
   window_set_background_color(window, GColorBlack);
   Layer *window_layer = window_get_root_layer(window);
+  
+  #ifdef PBL_COLOR
+    label_cann_shadow = text_layer_create(GRect(0 + label_shadow_h, 0 + label_shadow_v, 144, 30));
+    text_layer_set_background_color(label_cann_shadow, GColorClear);
+    text_layer_set_text_color(label_cann_shadow, GColorDarkCandyAppleRed);
+    text_layer_set_text_alignment(label_cann_shadow, GTextAlignmentCenter);
+    text_layer_set_text(label_cann_shadow, "Cannonian Time");
+    text_layer_set_font(label_cann_shadow, fonts_get_system_font(FONT_KEY_ROBOTO_CONDENSED_21));
+    layer_add_child(window_layer, text_layer_get_layer(label_cann_shadow));
+
+    label_stan_shadow = text_layer_create(GRect(0 + label_shadow_h, 84 + label_shadow_v, 144, 30));
+    text_layer_set_background_color(label_stan_shadow, GColorClear);
+    text_layer_set_text_color(label_stan_shadow, GColorCobaltBlue);
+    text_layer_set_text_alignment(label_stan_shadow, GTextAlignmentCenter);
+    text_layer_set_text(label_stan_shadow, "Standard Time");
+    text_layer_set_font(label_stan_shadow, fonts_get_system_font(FONT_KEY_ROBOTO_CONDENSED_21));
+    layer_add_child(window_layer, text_layer_get_layer(label_stan_shadow));
+
+    time_cann_shadow = text_layer_create(GRect(0 + time_shadow_h, 20 + time_shadow_v, 144, 50));
+    text_layer_set_background_color(time_cann_shadow, GColorClear);
+    text_layer_set_text_color(time_cann_shadow, GColorDarkCandyAppleRed);
+    text_layer_set_text_alignment(time_cann_shadow, GTextAlignmentCenter);
+    text_layer_set_font(time_cann_shadow, fonts_get_system_font(FONT_KEY_BITHAM_42_BOLD));
+    layer_add_child(window_layer, text_layer_get_layer(time_cann_shadow));
+
+    time_stan_shadow = text_layer_create(GRect(0 + time_shadow_h, 104 + time_shadow_v, 144, 50));
+    text_layer_set_background_color(time_stan_shadow, GColorClear);
+    text_layer_set_text_color(time_stan_shadow, GColorCobaltBlue);
+    text_layer_set_text_alignment(time_stan_shadow, GTextAlignmentCenter);
+    text_layer_set_font(time_stan_shadow, fonts_get_system_font(FONT_KEY_BITHAM_42_BOLD));
+    layer_add_child(window_layer, text_layer_get_layer(time_stan_shadow));
+  #endif
 
   label_cann = text_layer_create(GRect(0, 0, 144, 30));
   text_layer_set_background_color(label_cann, GColorClear);

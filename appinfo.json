@@ -16,10 +16,14 @@
             }
         ]
     },
+    "sdkVersion": "3",
     "shortName": "Cannonian Time",
+    "targetPlatforms": [
+        "aplite",
+        "basalt"
+    ],
     "uuid": "6bfaecbd-cf83-4abb-81c6-b2f119cdbb99",
-    "versionCode": 1,
-    "versionLabel": "1.0",
+    "versionLabel": "1.1",
     "watchapp": {
         "watchface": true
     }
