@@ -1,0 +1,21 @@
+{
+    "author": "jcgun",
+    "dependencies": {},
+    "keywords": [],
+    "name": "cannonian-time-colour-2",
+    "pebble": {
+        "displayName": "Cannonian Time - Colour 2",
+        "enableMultiJS": false,
+        "messageKeys": [],
+        "projectType": "native",
+        "resources": {
+            "media": []
+        },
+        "sdkVersion": "3",
+        "uuid": "47b6b518-7a77-43db-ad8c-62ca34e7ae20",
+        "watchapp": {
+            "watchface": false
+        }
+    },
+    "version": "1.0.0"
+}
